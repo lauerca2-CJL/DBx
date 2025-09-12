@@ -1,0 +1,11 @@
+fileVersion: 1
+id: "27"
+mappingDefinitions:
+  SOURCE_DATA:
+    database: samples
+    schema: tpch
+  TARGET:
+    database: coalesce_aws_dbx
+    schema: clauer_prod
+name: DBX - Production
+type: Environment
