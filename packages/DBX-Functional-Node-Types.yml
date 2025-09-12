@@ -1,0 +1,19 @@
+config:
+  entities:
+    nodeTypes:
+      "461":
+        defaultStorageLocation: null
+        isDisabled: false
+      "468":
+        defaultStorageLocation: null
+        isDisabled: false
+      "478":
+        defaultStorageLocation: null
+        isDisabled: false
+  packageVariables: ""
+fileVersion: 1
+id: "@coalesce/databricks/functional-node-types"
+name: DBX-Functional-Node-Types
+packageID: "@coalesce/databricks/functional-node-types"
+releaseID: fb1b7a1f-042f-404a-8923-23388fb985b3
+type: Package

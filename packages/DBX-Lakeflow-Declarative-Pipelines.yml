@@ -1,0 +1,13 @@
+config:
+  entities:
+    nodeTypes:
+      "368":
+        defaultStorageLocation: null
+        isDisabled: false
+  packageVariables: ""
+fileVersion: 1
+id: "@coalesce/databricks/lakeflow-declarative-pipelines"
+name: DBX-Lakeflow-Declarative-Pipelines
+packageID: "@coalesce/databricks/lakeflow-declarative-pipelines"
+releaseID: d7283042-ea30-4464-97af-c48fa0f6d39c
+type: Package
