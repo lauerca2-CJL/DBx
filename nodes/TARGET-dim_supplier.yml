@@ -62,6 +62,7 @@ operation:
         config: {}
         dataType: STRING
         description: ""
+        isChangeTracking: true
         name: s_name
         nullable: true
         sourceColumnReferences:
@@ -76,6 +77,7 @@ operation:
         config: {}
         dataType: STRING
         description: ""
+        isChangeTracking: true
         name: s_address
         nullable: true
         sourceColumnReferences:
@@ -90,6 +92,7 @@ operation:
         config: {}
         dataType: LONG
         description: ""
+        isChangeTracking: true
         name: s_nationkey
         nullable: true
         sourceColumnReferences:
@@ -104,6 +107,7 @@ operation:
         config: {}
         dataType: STRING
         description: ""
+        isChangeTracking: true
         name: s_phone
         nullable: true
         sourceColumnReferences:
@@ -118,6 +122,7 @@ operation:
         config: {}
         dataType: DECIMAL
         description: ""
+        isChangeTracking: true
         name: s_acctbal
         nullable: true
         sourceColumnReferences:
@@ -132,6 +137,7 @@ operation:
         config: {}
         dataType: STRING
         description: ""
+        isChangeTracking: true
         name: s_comment
         nullable: true
         sourceColumnReferences:
