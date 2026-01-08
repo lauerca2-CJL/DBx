@@ -70,7 +70,7 @@ operation:
         config: {}
         dataType: STRING
         description: Name of the part. Provides a descriptive label for each part. Sourced directly from the Part table in the source system. Used in product catalogs and inventory listings. No transformations applied. Facilitates human-readable identification of parts in reports and dashboards. Enables filtering and grouping of data based on part name. Supports search functionality in applications that use the data warehouse. Consistent naming conventions are essential for data quality.
-        name: p_name
+        name: Part Name
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -84,7 +84,7 @@ operation:
         config: {}
         dataType: STRING
         description: Manufacturer of the part. Indicates the company that produces the part. Sourced directly from the Part table in the source system. Used in vendor performance analysis and supply chain management. No transformations applied. Enables filtering and grouping of data based on manufacturer. Supports identification of preferred vendors and negotiation of contracts. Crucial for tracking product quality and reliability by manufacturer. Consistent naming conventions are essential for data quality.
-        name: p_mfgr
+        name: Part Manufacturer
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -98,7 +98,7 @@ operation:
         config: {}
         dataType: STRING
         description: Brand of the part. Categorizes parts by brand name. Sourced directly from the Part table in the source system. Used in marketing campaigns and brand performance analysis. No transformations applied. Enables filtering and grouping of data based on brand. Supports identification of top-selling brands and market trends. Crucial for tracking brand loyalty and customer preferences. Consistent naming conventions are essential for data quality.
-        name: p_brand
+        name: Part Brand
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -112,7 +112,7 @@ operation:
         config: {}
         dataType: STRING
         description: Type of the part. Classifies parts into broad categories. Sourced directly from the Part table in the source system. Used in product portfolio analysis and inventory planning. No transformations applied. Enables filtering and grouping of data based on part type. Supports identification of high-demand product categories. Crucial for optimizing inventory levels and reducing stockouts. Consistent naming conventions are essential for data quality.
-        name: p_type
+        name: Part Type
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -126,7 +126,7 @@ operation:
         config: {}
         dataType: INT
         description: Size of the part. Indicates the physical dimensions of the part. Sourced directly from the Part table in the source system. Used in warehouse layout planning and shipping optimization. No transformations applied. Enables filtering and grouping of data based on part size. Supports calculation of storage space requirements. Crucial for minimizing shipping costs and improving delivery times. Standardized units of measure are essential for data quality.
-        name: p_size
+        name: Part Size
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -140,7 +140,7 @@ operation:
         config: {}
         dataType: STRING
         description: Container type used for storing the part. Specifies the packaging or storage method. Sourced directly from the Part table in the source system. Used in logistics planning and warehouse management. No transformations applied. Enables filtering and grouping of data based on container type. Supports optimization of storage and handling procedures. Crucial for minimizing damage during transportation and storage. Consistent naming conventions are essential for data quality.
-        name: p_container
+        name: Part Container
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -154,7 +154,7 @@ operation:
         config: {}
         dataType: DECIMAL
         description: Retail price of the part. Indicates the selling price to customers. Sourced directly from the Part table in the source system. Used in pricing analysis and profitability calculations. No transformations applied. Enables filtering and grouping of data based on price range. Supports identification of high-margin products. Crucial for optimizing pricing strategies and maximizing revenue. Accurate and up-to-date pricing information is essential for business decisions.
-        name: p_retailprice
+        name: Part Retail Price
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -168,7 +168,7 @@ operation:
         config: {}
         dataType: STRING
         description: Comment associated with the part. Provides additional information or notes about the part. Sourced directly from the Part table in the source system. Used in product documentation and customer service. No transformations applied. Enables filtering and grouping of data based on keywords in the comment. Supports identification of parts with specific characteristics or issues. Crucial for improving product quality and customer satisfaction. Free-text field requires careful monitoring for data quality.
-        name: p_comment
+        name: Part Comment
         nullable: true
         sourceColumnReferences:
           - columnReferences:

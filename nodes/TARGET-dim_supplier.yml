@@ -71,7 +71,7 @@ operation:
         dataType: STRING
         description: Name of the supplier, sourced directly from the Supplier table. Used in reports to identify and differentiate suppliers. Allows for filtering and grouping of data by supplier name. Subject to change tracking to monitor updates. No transformations applied. Displayed in supplier performance dashboards and reports. Supports supplier relationship management and procurement analysis. Enables quick identification of suppliers in various business processes. Used for supplier contact and communication purposes.
         isChangeTracking: true
-        name: s_name
+        name: Supplier Name
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -86,7 +86,7 @@ operation:
         dataType: STRING
         description: Physical address of the supplier, sourced directly from the Supplier table. Used for logistics, shipping, and supplier location analysis. Allows for geographic segmentation of suppliers. Subject to change tracking to monitor updates. No transformations applied. Displayed in supplier profiles and reports. Supports supply chain management and risk assessment. Enables verification of supplier legitimacy and compliance. Used for supplier site visits and audits.
         isChangeTracking: true
-        name: s_address
+        name: Supplier Address
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -101,7 +101,7 @@ operation:
         dataType: LONG
         description: Foreign key linking the supplier to its nation of origin in the Nation dimension. Sourced directly from the Supplier table. Used for international trade analysis and reporting. Allows for grouping and filtering of data by supplier nationality. Subject to change tracking to monitor updates. No transformations applied. Displayed in supplier profiles and reports. Supports geopolitical risk assessment and compliance. Enables identification of suppliers from specific countries. Used for supplier diversity and inclusion initiatives.
         isChangeTracking: true
-        name: s_nationkey
+        name: Supplier Nation
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -116,7 +116,7 @@ operation:
         dataType: STRING
         description: Telephone number of the supplier, sourced directly from the Supplier table. Used for communication and contact purposes. Allows for direct outreach to suppliers. Subject to change tracking to monitor updates. No transformations applied. Displayed in supplier profiles and reports. Supports supplier relationship management and issue resolution. Enables quick contact with suppliers for urgent matters. Used for verifying supplier information and legitimacy.
         isChangeTracking: true
-        name: s_phone
+        name: Supplier Phone
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -131,7 +131,7 @@ operation:
         dataType: DECIMAL
         description: Account balance of the supplier, sourced directly from the Supplier table. Used for financial analysis and credit risk assessment. Allows for monitoring of supplier financial health. Subject to change tracking to monitor updates. No transformations applied. Displayed in supplier financial reports. Supports procurement and supply chain finance. Enables identification of financially vulnerable suppliers. Used for negotiating payment terms and managing supplier risk.
         isChangeTracking: true
-        name: s_acctbal
+        name: Supplier Account Balance
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -146,7 +146,7 @@ operation:
         dataType: STRING
         description: Descriptive comments about the supplier, sourced directly from the Supplier table. Used for capturing additional information and context. Allows for free-text notes on supplier performance and issues. Subject to change tracking to monitor updates. No transformations applied. Displayed in supplier profiles and reports. Supports supplier relationship management and knowledge sharing. Enables capturing of qualitative information about suppliers. Used for internal communication and documentation.
         isChangeTracking: true
-        name: s_comment
+        name: Supplier Comment
         nullable: true
         sourceColumnReferences:
           - columnReferences:

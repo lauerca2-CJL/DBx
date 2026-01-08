@@ -71,7 +71,7 @@ operation:
         dataType: STRING
         description: Name of the customer. Sourced directly from the c_name column in the stg_customer table. Used in customer profiling and segmentation. Enables personalized marketing campaigns and customer service initiatives. Subject to change tracking to monitor updates to customer information. Included in customer reports and dashboards for identifying and contacting customers.
         isChangeTracking: true
-        name: c_name
+        name: Customer Name
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -86,7 +86,7 @@ operation:
         dataType: STRING
         description: Address of the customer. Sourced directly from the c_address column in the stg_customer table. Used for shipping and billing purposes. Enables geographic analysis of customer distribution. Subject to change tracking to monitor updates to customer information. Included in customer reports and dashboards for identifying and contacting customers.
         isChangeTracking: true
-        name: c_address
+        name: Customer Address
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -100,7 +100,7 @@ operation:
         config: {}
         dataType: LONG
         description: Foreign key referencing the Nation dimension. Links customers to their respective nations. Sourced from the c_nationkey column in the stg_customer table. Uppercased during the transformation process. Used in sales analysis and reporting by nation. Enables comparisons of customer behavior across different nations. Essential for international business analysis and reporting.
-        name: c_nationkey
+        name: Customer Nation Key
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -114,7 +114,7 @@ operation:
         config: {}
         dataType: STRING
         description: Phone number of the customer. Sourced directly from the c_phone column in the stg_customer table. Used for contacting customers and providing customer support. Enables direct communication for marketing and sales purposes. Included in customer reports and dashboards for identifying and contacting customers. Used for verifying customer identity and preventing fraud.
-        name: c_phone
+        name: Customer Phone
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -128,7 +128,7 @@ operation:
         config: {}
         dataType: DECIMAL
         description: Account balance of the customer. Sourced from the c_acctbal column in the stg_customer table. Uppercased during the transformation process. Used in financial analysis and reporting. Enables segmentation of customers based on their account balance. Included in customer reports and dashboards for monitoring customer financial status.
-        name: c_acctbal
+        name: Customer Account Balance
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -142,7 +142,7 @@ operation:
         config: {}
         dataType: STRING
         description: Market segment to which the customer belongs. Sourced directly from the c_mktsegment column in the stg_customer table. Used in marketing and sales analysis. Enables targeted marketing campaigns and product development. Included in customer reports and dashboards for segmenting customers. Used for understanding customer preferences and behavior within different market segments.
-        name: c_mktsegment
+        name: Customer Market Segment
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -156,7 +156,7 @@ operation:
         config: {}
         dataType: STRING
         description: Additional comments or notes about the customer. Sourced directly from the c_comment column in the stg_customer table. Used for storing additional information about customers. Enables personalized customer service and support. Included in customer reports and dashboards for providing context about customers. Used for tracking customer interactions and feedback.
-        name: c_comment
+        name: Customer Comment
         nullable: true
         sourceColumnReferences:
           - columnReferences:

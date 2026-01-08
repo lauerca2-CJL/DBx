@@ -153,7 +153,7 @@ operation:
         config: {}
         dataType: STRING
         description: Order status from the Orders table. Indicates the current state of an order (e.g., pending, shipped, complete). Used in order management dashboards, customer service reports, and sales pipeline analysis. Sourced directly from the Orders table without transformations. Provides insights into order fulfillment processes and potential bottlenecks. Enables proactive management of customer orders and timely resolution of issues.
-        name: o_orderstatus
+        name: Order Status
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -167,7 +167,7 @@ operation:
         config: {}
         dataType: DECIMAL
         description: Total price of the order from the Orders table. Represents the sum of all line item prices for a given order. Used in revenue analysis, sales forecasting, and profitability calculations. Sourced directly from the Orders table without transformations. Provides a key measure of order value and contribution to overall sales. Enables detailed analysis of pricing strategies and their impact on revenue.
-        name: o_totalprice
+        name: Line Item Price
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -181,7 +181,7 @@ operation:
         config: {}
         dataType: DECIMAL
         description: Total price of the order from the Orders table. Represents the sum of all line item prices for a given order. Used in revenue analysis, sales forecasting, and profitability calculations. Sourced directly from the Orders table without transformations. Provides a key measure of order value and contribution to overall sales. Enables detailed analysis of pricing strategies and their impact on revenue.
-        name: o_total_order_price
+        name: Total Order Price
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -195,7 +195,7 @@ operation:
         config: {}
         dataType: DATE
         description: Order date from the Orders table. Indicates the date when the order was placed. Used in sales trend analysis, seasonality studies, and customer behavior modeling. Sourced directly from the Orders table without transformations. Provides a critical time dimension for analyzing sales patterns and identifying growth opportunities. Enables accurate tracking of order volumes and revenue over time.
-        name: o_orderdate
+        name: Order Date
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -209,7 +209,7 @@ operation:
         config: {}
         dataType: STRING
         description: Order priority from the Orders table. Represents the urgency level assigned to an order (e.g., high, medium, low). Used in order fulfillment planning, resource allocation, and customer service prioritization. Sourced directly from the Orders table without transformations. Provides insights into order handling processes and customer expectations. Enables efficient management of order queues and timely delivery of critical orders.
-        name: o_orderpriority_num
+        name: Order Priority Number
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -223,7 +223,7 @@ operation:
         config: {}
         dataType: STRING
         description: Order priority from the Orders table. Describes the urgency level of the order. Used in reports to analyze order fulfillment efficiency based on priority. Directly sourced from the Orders table without transformations. Useful in determining resource allocation strategies and identifying bottlenecks in order processing. Supports customer service inquiries related to order handling.
-        name: o_orderpriority_desc
+        name: Order Priority
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -237,7 +237,7 @@ operation:
         config: {}
         dataType: STRING
         description: Clerk who processed the order, taken directly from the Orders table. Used for performance tracking and workload distribution analysis. Helps identify top-performing clerks and optimize staffing levels. No transformations applied. Supports auditing and accountability processes within the order management system. Useful for training and development programs.
-        name: o_clerk
+        name: Order Clerk
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -251,7 +251,7 @@ operation:
         config: {}
         dataType: INT
         description: Shipping priority assigned to the order. Indicates the preferred shipping method or speed. Sourced directly from the Orders table. Used in logistics planning and shipping cost analysis. Helps optimize delivery schedules and reduce transportation expenses. Supports customer communication regarding shipping options and delivery timelines. No transformations applied.
-        name: o_shippriority
+        name: Order Ship Priority
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -265,7 +265,7 @@ operation:
         config: {}
         dataType: STRING
         description: Additional comments or notes related to the order. Provides context and special instructions. Sourced directly from the Orders table. Used for internal communication and order clarification. Supports customer service inquiries and issue resolution. No transformations applied. Useful for identifying recurring issues or special handling requirements. Aids in process improvement initiatives.
-        name: o_comment
+        name: Order Comment
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -293,7 +293,7 @@ operation:
         config: {}
         dataType: INT
         description: Line number within the order from the Lineitem table. Indicates the sequence of items in the order. Used for detailed order analysis and inventory management. Sourced directly from the Lineitem table without transformations. Helps track the fulfillment status of individual items within an order. Supports troubleshooting and issue resolution related to specific line items.
-        name: l_linenumber
+        name: Order Line Number
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -307,7 +307,7 @@ operation:
         config: {}
         dataType: DECIMAL
         description: Quantity of the item ordered from the Lineitem table. Used in sales analysis and inventory management. Sourced directly from the Lineitem table without transformations. Helps track product demand and optimize stock levels. Supports pricing and revenue calculations. Useful for identifying popular products and forecasting future sales. Essential for supply chain planning and logistics.
-        name: l_quantity
+        name: Order Line Quantity
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -321,7 +321,7 @@ operation:
         config: {}
         dataType: DECIMAL
         description: Extended price of the line item from the Lineitem table. Calculated as the product of quantity and unit price. Used in revenue analysis and profitability calculations. Sourced directly from the Lineitem table without transformations. Helps track sales performance and identify high-value products. Supports financial reporting and budgeting processes. Essential for pricing strategy and margin analysis.
-        name: l_extendedprice
+        name: Order Line Extended Price
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -335,7 +335,7 @@ operation:
         config: {}
         dataType: DECIMAL
         description: Discount applied to the line item from the Lineitem table. Used in pricing analysis and promotion effectiveness measurement. Sourced directly from the Lineitem table without transformations. Helps track the impact of discounts on sales volume and revenue. Supports customer segmentation and targeted marketing campaigns. Useful for optimizing pricing strategies and maximizing profitability.
-        name: l_discount
+        name: Order Line Discount
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -349,7 +349,7 @@ operation:
         config: {}
         dataType: DECIMAL
         description: Tax amount applied to the line item from the Lineitem table. Used in financial reporting and compliance. Sourced directly from the Lineitem table without transformations. Helps track tax liabilities and ensure accurate tax collection. Supports government reporting and auditing processes. Essential for maintaining financial transparency and regulatory compliance. Useful for calculating total order value.
-        name: l_tax
+        name: Order Line Tax
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -363,7 +363,7 @@ operation:
         config: {}
         dataType: STRING
         description: Flag indicating whether the line item was returned from the Lineitem table. Used in returns analysis and customer satisfaction measurement. Sourced directly from the Lineitem table without transformations. Helps track return rates and identify potential product quality issues. Supports customer service and warranty processes. Useful for improving product design and reducing return-related costs.
-        name: l_returnflag
+        name: Order Line Return Flag
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -377,7 +377,7 @@ operation:
         config: {}
         dataType: STRING
         description: Status of the line item from the Lineitem table. Indicates whether the item is in stock, backordered, or shipped. Used in inventory management and order fulfillment tracking. Sourced directly from the Lineitem table without transformations. Helps track the progress of orders and identify potential delays. Supports customer communication regarding order status and delivery timelines.
-        name: l_linestatus
+        name: Order Line Status
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -391,7 +391,7 @@ operation:
         config: {}
         dataType: DATE
         description: Date when the line item was shipped. Originates from the Lineitem table. Used in reports for tracking order fulfillment timelines and identifying shipping trends. Helps analyze on-time delivery performance and potential bottlenecks in the shipping process. No transformations applied.
-        name: l_shipdate
+        name: Order Line Ship Date
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -405,7 +405,7 @@ operation:
         config: {}
         dataType: DATE
         description: Date when the line item shipment was committed. Sourced directly from the Lineitem table. Used in supply chain analysis to compare planned versus actual shipment dates. Helps in assessing the accuracy of commitment dates and identifying potential delays. No transformations applied.
-        name: l_commitdate
+        name: Order Line Commit Date
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -419,7 +419,7 @@ operation:
         config: {}
         dataType: DATE
         description: Date when the line item was received. Extracted directly from the Lineitem table. Used in logistics and inventory management to track the time taken for goods to reach their destination. Aids in calculating lead times and optimizing inventory levels. No transformations applied.
-        name: l_receiptdate
+        name: Order Line Receipt Date
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -433,7 +433,7 @@ operation:
         config: {}
         dataType: STRING
         description: Shipping instructions for the line item. Pulled directly from the Lineitem table. Provides details on how the order should be shipped. Used by the shipping department to ensure proper handling and delivery. No transformations applied; represents the original instructions.
-        name: l_shipinstruct
+        name: Order Line Ship Instructions
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -447,7 +447,7 @@ operation:
         config: {}
         dataType: STRING
         description: Shipping mode for the line item. Taken directly from the Lineitem table. Indicates the method of shipment used, such as air, sea, or road. Used in logistics analysis to determine the efficiency and cost-effectiveness of different shipping methods. No transformations applied.
-        name: l_shipmode
+        name: Order Line Ship Mode
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -461,7 +461,7 @@ operation:
         config: {}
         dataType: STRING
         description: Comment associated with the line item. Sourced directly from the Lineitem table. Provides additional information or notes related to the line item. Used for internal communication and record-keeping purposes. Can contain special handling instructions or explanations for delays. No transformations applied.
-        name: l_comment
+        name: Order Line Comment
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -475,7 +475,7 @@ operation:
         config: {}
         dataType: INT
         description: Quantity of parts available. Originates from the Partsupp table. Used in inventory management to track stock levels and ensure sufficient supply. Helps in avoiding stockouts and meeting customer demand. No transformations applied; reflects the actual available quantity.
-        name: ps_availqty
+        name: Parts Availabe Quantity
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -489,7 +489,7 @@ operation:
         config: {}
         dataType: DECIMAL
         description: Cost of the supply. Sourced directly from the Partsupp table. Used in cost analysis to determine the expenses associated with procuring parts. Helps in identifying cost-saving opportunities and optimizing pricing strategies. No transformations applied; represents the original supply cost.
-        name: ps_supplycost
+        name: Parts Supply Cost
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -503,7 +503,7 @@ operation:
         config: {}
         dataType: INT
         description: Calculated field representing the number of days between the commit and ship dates. Derived by subtracting l_commitdate from l_shipdate. Used in performance analysis to measure shipping efficiency. Aids in identifying delays and improving delivery times. Provides insights into supply chain responsiveness.
-        name: days_to_ship
+        name: Parts Days to Ship
         nullable: true
         sourceColumnReferences:
           - columnReferences:
