@@ -9,14 +9,22 @@ operation:
     orderbycolumn:
       items:
         - {}
-    postSQL: ""
+    postSQL: |-
+      --==========================================================
+      -- Add Primary Key to dim_part so it works with Genie Spaces
+      --==========================================================
+
+      ALTER TABLE coalesce_aws_dbx.clauer_dev.dim_part
+      ADD CONSTRAINT pk_dim_part
+      PRIMARY KEY (dim_part_key)
+      NOT ENFORCED;
     preSQL: ""
     selectDistinct: false
     testsEnabled: false
     truncateBefore: false
   database: ""
   deployEnabled: true
-  description: ""
+  description: Creates or replaces the dim_part dimension table and then merges data from the stg_part staging table into the dim_part table, updating existing records when there are changes and inserting new records when there is no match.
   isMultisource: false
   locationName: TARGET
   materializationType: table
@@ -33,10 +41,10 @@ operation:
         config: {}
         dataType: BIGINT
         defaultValue: ""
-        description: ""
+        description: Surrogate key for the Part dimension table. Uniquely identifies each part record. Used as the primary key for the Part dimension. Enables efficient joins and lookups in data warehouse queries. System-generated during the data warehousing process. Not sourced from the original data but created to ensure unique identification and simplify relationships with fact tables. Essential for performance optimization in star schema designs.
         isSurrogateKey: true
         name: dim_part_key
-        nullable: true
+        nullable: false
         sourceColumnReferences:
           - columnReferences: []
             transform: ""
@@ -46,7 +54,7 @@ operation:
           stepCounter: d3e6474c-74fb-438c-9fa7-e771f90e09d1
         config: {}
         dataType: LONG
-        description: ""
+        description: Part identifier sourced from the source system. Business key for the Part dimension table. Used to track parts in inventory management and sales analysis. Originates from the Part table in the source system. No transformations applied. Included in the dimension to maintain traceability to the source system. Enables drill-down from aggregated sales data to individual part details. Used in conjunction with other part attributes for detailed product reporting.
         isBusinessKey: true
         name: p_partkey
         nullable: true
@@ -61,7 +69,7 @@ operation:
           stepCounter: d3e6474c-74fb-438c-9fa7-e771f90e09d1
         config: {}
         dataType: STRING
-        description: ""
+        description: Name of the part. Provides a descriptive label for each part. Sourced directly from the Part table in the source system. Used in product catalogs and inventory listings. No transformations applied. Facilitates human-readable identification of parts in reports and dashboards. Enables filtering and grouping of data based on part name. Supports search functionality in applications that use the data warehouse. Consistent naming conventions are essential for data quality.
         name: p_name
         nullable: true
         sourceColumnReferences:
@@ -75,7 +83,7 @@ operation:
           stepCounter: d3e6474c-74fb-438c-9fa7-e771f90e09d1
         config: {}
         dataType: STRING
-        description: ""
+        description: Manufacturer of the part. Indicates the company that produces the part. Sourced directly from the Part table in the source system. Used in vendor performance analysis and supply chain management. No transformations applied. Enables filtering and grouping of data based on manufacturer. Supports identification of preferred vendors and negotiation of contracts. Crucial for tracking product quality and reliability by manufacturer. Consistent naming conventions are essential for data quality.
         name: p_mfgr
         nullable: true
         sourceColumnReferences:
@@ -89,7 +97,7 @@ operation:
           stepCounter: d3e6474c-74fb-438c-9fa7-e771f90e09d1
         config: {}
         dataType: STRING
-        description: ""
+        description: Brand of the part. Categorizes parts by brand name. Sourced directly from the Part table in the source system. Used in marketing campaigns and brand performance analysis. No transformations applied. Enables filtering and grouping of data based on brand. Supports identification of top-selling brands and market trends. Crucial for tracking brand loyalty and customer preferences. Consistent naming conventions are essential for data quality.
         name: p_brand
         nullable: true
         sourceColumnReferences:
@@ -103,7 +111,7 @@ operation:
           stepCounter: d3e6474c-74fb-438c-9fa7-e771f90e09d1
         config: {}
         dataType: STRING
-        description: ""
+        description: Type of the part. Classifies parts into broad categories. Sourced directly from the Part table in the source system. Used in product portfolio analysis and inventory planning. No transformations applied. Enables filtering and grouping of data based on part type. Supports identification of high-demand product categories. Crucial for optimizing inventory levels and reducing stockouts. Consistent naming conventions are essential for data quality.
         name: p_type
         nullable: true
         sourceColumnReferences:
@@ -117,7 +125,7 @@ operation:
           stepCounter: d3e6474c-74fb-438c-9fa7-e771f90e09d1
         config: {}
         dataType: INT
-        description: ""
+        description: Size of the part. Indicates the physical dimensions of the part. Sourced directly from the Part table in the source system. Used in warehouse layout planning and shipping optimization. No transformations applied. Enables filtering and grouping of data based on part size. Supports calculation of storage space requirements. Crucial for minimizing shipping costs and improving delivery times. Standardized units of measure are essential for data quality.
         name: p_size
         nullable: true
         sourceColumnReferences:
@@ -131,7 +139,7 @@ operation:
           stepCounter: d3e6474c-74fb-438c-9fa7-e771f90e09d1
         config: {}
         dataType: STRING
-        description: ""
+        description: Container type used for storing the part. Specifies the packaging or storage method. Sourced directly from the Part table in the source system. Used in logistics planning and warehouse management. No transformations applied. Enables filtering and grouping of data based on container type. Supports optimization of storage and handling procedures. Crucial for minimizing damage during transportation and storage. Consistent naming conventions are essential for data quality.
         name: p_container
         nullable: true
         sourceColumnReferences:
@@ -145,7 +153,7 @@ operation:
           stepCounter: d3e6474c-74fb-438c-9fa7-e771f90e09d1
         config: {}
         dataType: DECIMAL
-        description: ""
+        description: Retail price of the part. Indicates the selling price to customers. Sourced directly from the Part table in the source system. Used in pricing analysis and profitability calculations. No transformations applied. Enables filtering and grouping of data based on price range. Supports identification of high-margin products. Crucial for optimizing pricing strategies and maximizing revenue. Accurate and up-to-date pricing information is essential for business decisions.
         name: p_retailprice
         nullable: true
         sourceColumnReferences:
@@ -159,7 +167,7 @@ operation:
           stepCounter: d3e6474c-74fb-438c-9fa7-e771f90e09d1
         config: {}
         dataType: STRING
-        description: ""
+        description: Comment associated with the part. Provides additional information or notes about the part. Sourced directly from the Part table in the source system. Used in product documentation and customer service. No transformations applied. Enables filtering and grouping of data based on keywords in the comment. Supports identification of parts with specific characteristics or issues. Crucial for improving product quality and customer satisfaction. Free-text field requires careful monitoring for data quality.
         name: p_comment
         nullable: true
         sourceColumnReferences:
@@ -177,7 +185,7 @@ operation:
         config: {}
         dataType: NUMERIC
         defaultValue: ""
-        description: ""
+        description: Tracks version number of each record in the dimension. Increments with each update to capture historical changes. System-generated to support auditing and point-in-time analysis. Not sourced from the original data. Enables reconstruction of the dimension table at any point in time. Used in conjunction with system_current_flag to identify the most recent version of each record. Essential for maintaining data integrity and compliance with regulatory requirements.
         isSystemVersion: true
         name: system_version
         nullable: true
@@ -194,7 +202,7 @@ operation:
         config: {}
         dataType: VARCHAR(1)
         defaultValue: ""
-        description: ""
+        description: Indicates whether a record is the most current version. Set to 'Y' for the latest version and 'N' for historical versions. System-generated to simplify querying for current data. Not sourced from the original data. Enables efficient retrieval of the most up-to-date information. Used in conjunction with system_version to track changes over time. Essential for reporting and analysis that require current data. Simplifies data access for business users.
         isSystemCurrentFlag: true
         name: system_current_flag
         nullable: true
@@ -211,7 +219,7 @@ operation:
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: Represents the date and time when a record becomes current. Used for tracking changes over time. Populated with the current timestamp when a new record is created. Enables historical analysis and audit trails. Not sourced from any table; system-generated. Used in time-series analysis and point-in-time reporting. Helps determine the active state of a record at any given time. No transformations applied.
         isSystemStartDate: true
         name: system_start_date
         nullable: true
@@ -228,7 +236,7 @@ operation:
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: Date and time when a record is no longer considered current. Defaults to '2999-12-31 00:00:00'. Updated with the current timestamp when a record is superseded. Facilitates temporal data analysis and historical reconstruction. Not sourced from any table; system-generated. Used in reporting to identify currently valid records. Allows for tracking the lifespan of each record. No transformations applied.
         isSystemEndDate: true
         name: system_end_date
         nullable: true
@@ -245,7 +253,7 @@ operation:
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: Timestamp representing when a record was initially created in the data warehouse. Automatically populated with the current timestamp upon record creation. Not sourced from any table; system-generated. Used for auditing and data governance purposes. Helps track data lineage and identify the origin of records. Useful in debugging and troubleshooting data-related issues. No transformations applied.
         isSystemCreateDate: true
         name: system_create_date
         nullable: true
@@ -262,7 +270,7 @@ operation:
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: Timestamp of the last time a record was modified. Automatically updated with the current timestamp whenever a record is changed. Not sourced from any table; system-generated. Used for auditing and tracking data changes. Helps identify when and how data has evolved. Essential for maintaining data integrity and understanding data transformations. No transformations applied.
         isSystemUpdateDate: true
         name: system_update_date
         nullable: true
@@ -280,7 +288,8 @@ operation:
           - locationName: TARGET
             nodeName: stg_part
         join:
-          joinCondition: FROM {{ ref('TARGET', 'stg_part') }} `stg_part`
+          joinCondition: |
+            FROM {{ ref('TARGET', 'stg_part') }} `stg_part`
         name: dim_part
         noLinkRefs: []
   name: dim_part

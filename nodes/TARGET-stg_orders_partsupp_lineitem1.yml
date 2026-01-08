@@ -117,48 +117,6 @@ operation:
             transform: ""
       - appliedColumnTests: {}
         columnReference:
-          columnCounter: 2f7c9064-f436-4d82-a265-e81be0fc2ec1
-          stepCounter: 810b661f-346e-42ba-b0f8-a54245f78868
-        config: {}
-        dataType: BIGINT
-        description: ""
-        name: dim_customer_key
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: fa29ce0e-f161-4f0f-b355-f05f3140769c
-                stepCounter: 498df581-1632-4e0a-91a0-a0e70cbc8bb0
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: a095dc29-2e1b-4d70-b620-004b93694258
-          stepCounter: 810b661f-346e-42ba-b0f8-a54245f78868
-        config: {}
-        dataType: BIGINT
-        description: ""
-        name: dim_part_key
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 25efdebe-d0df-44f1-a8cb-c3cee8663c54
-                stepCounter: d3e6474c-74fb-438c-9fa7-e771f90e09d1
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
-          columnCounter: d960690a-eaa9-4722-9c49-13a9dbb1a8c5
-          stepCounter: 810b661f-346e-42ba-b0f8-a54245f78868
-        config: {}
-        dataType: BIGINT
-        description: ""
-        name: dim_supplier_key
-        nullable: true
-        sourceColumnReferences:
-          - columnReferences:
-              - columnCounter: 7d27f60d-e994-417b-9fb4-c0e58f1c3356
-                stepCounter: af2d8aef-cae0-422a-8535-46ae43500f82
-            transform: ""
-      - appliedColumnTests: {}
-        columnReference:
           columnCounter: 06c6abd1-2551-4713-8708-bebb3fe78513
           stepCounter: 810b661f-346e-42ba-b0f8-a54245f78868
         config: {}

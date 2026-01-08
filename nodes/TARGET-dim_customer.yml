@@ -9,14 +9,22 @@ operation:
     orderbycolumn:
       items:
         - {}
-    postSQL: ""
+    postSQL: |-
+      --==========================================================
+      -- Add Primary Key to dim_customer so it works with Genie Spaces
+      --==========================================================
+
+      ALTER TABLE coalesce_aws_dbx.clauer_dev.dim_customer
+      ADD CONSTRAINT pk_dim_customer
+      PRIMARY KEY (dim_customer_key)
+      NOT ENFORCED;
     preSQL: ""
     selectDistinct: false
     testsEnabled: false
     truncateBefore: false
   database: ""
   deployEnabled: true
-  description: ""
+  description: Creates the dim_customer dimension table and merges data from the stg_customer staging table into it, handling type 2 dimension changes. It inserts new rows, updates existing rows, and expires outdated rows based on changes in specified columns.
   isMultisource: false
   locationName: TARGET
   materializationType: table
@@ -33,10 +41,10 @@ operation:
         config: {}
         dataType: BIGINT
         defaultValue: ""
-        description: ""
+        description: Surrogate key for the Customer dimension table. Uniquely identifies each customer record. Used as the primary key for the Customer dimension. Enables efficient joins and lookups in data warehouse queries. System-generated during the data warehousing process. Not sourced from any source system. Used in fact tables to link transactions to specific customers for reporting and analysis.
         isSurrogateKey: true
         name: dim_customer_key
-        nullable: true
+        nullable: false
         sourceColumnReferences:
           - columnReferences: []
             transform: ""
@@ -46,7 +54,7 @@ operation:
           stepCounter: 498df581-1632-4e0a-91a0-a0e70cbc8bb0
         config: {}
         dataType: LONG
-        description: ""
+        description: Customer identifier from the source system. Serves as the business key for the Customer dimension. Used to integrate data from different source systems. Uppercased during the transformation process. Source is the c_custkey column in the stg_customer table. Used in downstream reporting to identify individual customers and track their behavior over time.
         isBusinessKey: true
         name: c_custkey
         nullable: true
@@ -61,7 +69,7 @@ operation:
           stepCounter: 498df581-1632-4e0a-91a0-a0e70cbc8bb0
         config: {}
         dataType: STRING
-        description: ""
+        description: Name of the customer. Sourced directly from the c_name column in the stg_customer table. Used in customer profiling and segmentation. Enables personalized marketing campaigns and customer service initiatives. Subject to change tracking to monitor updates to customer information. Included in customer reports and dashboards for identifying and contacting customers.
         isChangeTracking: true
         name: c_name
         nullable: true
@@ -76,7 +84,7 @@ operation:
           stepCounter: 498df581-1632-4e0a-91a0-a0e70cbc8bb0
         config: {}
         dataType: STRING
-        description: ""
+        description: Address of the customer. Sourced directly from the c_address column in the stg_customer table. Used for shipping and billing purposes. Enables geographic analysis of customer distribution. Subject to change tracking to monitor updates to customer information. Included in customer reports and dashboards for identifying and contacting customers.
         isChangeTracking: true
         name: c_address
         nullable: true
@@ -91,7 +99,7 @@ operation:
           stepCounter: 498df581-1632-4e0a-91a0-a0e70cbc8bb0
         config: {}
         dataType: LONG
-        description: ""
+        description: Foreign key referencing the Nation dimension. Links customers to their respective nations. Sourced from the c_nationkey column in the stg_customer table. Uppercased during the transformation process. Used in sales analysis and reporting by nation. Enables comparisons of customer behavior across different nations. Essential for international business analysis and reporting.
         name: c_nationkey
         nullable: true
         sourceColumnReferences:
@@ -105,7 +113,7 @@ operation:
           stepCounter: 498df581-1632-4e0a-91a0-a0e70cbc8bb0
         config: {}
         dataType: STRING
-        description: ""
+        description: Phone number of the customer. Sourced directly from the c_phone column in the stg_customer table. Used for contacting customers and providing customer support. Enables direct communication for marketing and sales purposes. Included in customer reports and dashboards for identifying and contacting customers. Used for verifying customer identity and preventing fraud.
         name: c_phone
         nullable: true
         sourceColumnReferences:
@@ -119,7 +127,7 @@ operation:
           stepCounter: 498df581-1632-4e0a-91a0-a0e70cbc8bb0
         config: {}
         dataType: DECIMAL
-        description: ""
+        description: Account balance of the customer. Sourced from the c_acctbal column in the stg_customer table. Uppercased during the transformation process. Used in financial analysis and reporting. Enables segmentation of customers based on their account balance. Included in customer reports and dashboards for monitoring customer financial status.
         name: c_acctbal
         nullable: true
         sourceColumnReferences:
@@ -133,7 +141,7 @@ operation:
           stepCounter: 498df581-1632-4e0a-91a0-a0e70cbc8bb0
         config: {}
         dataType: STRING
-        description: ""
+        description: Market segment to which the customer belongs. Sourced directly from the c_mktsegment column in the stg_customer table. Used in marketing and sales analysis. Enables targeted marketing campaigns and product development. Included in customer reports and dashboards for segmenting customers. Used for understanding customer preferences and behavior within different market segments.
         name: c_mktsegment
         nullable: true
         sourceColumnReferences:
@@ -147,7 +155,7 @@ operation:
           stepCounter: 498df581-1632-4e0a-91a0-a0e70cbc8bb0
         config: {}
         dataType: STRING
-        description: ""
+        description: Additional comments or notes about the customer. Sourced directly from the c_comment column in the stg_customer table. Used for storing additional information about customers. Enables personalized customer service and support. Included in customer reports and dashboards for providing context about customers. Used for tracking customer interactions and feedback.
         name: c_comment
         nullable: true
         sourceColumnReferences:
@@ -165,7 +173,7 @@ operation:
         config: {}
         dataType: NUMERIC
         defaultValue: ""
-        description: ""
+        description: Tracks the version number of each record in the Customer dimension. System-generated during the data warehousing process. Increments with each change to a customer record. Used for auditing and tracking data lineage. Enables historical analysis of customer data. Not sourced from any source system. Essential for maintaining data integrity and accuracy over time.
         isSystemVersion: true
         name: system_version
         nullable: true
@@ -182,7 +190,7 @@ operation:
         config: {}
         dataType: VARCHAR(1)
         defaultValue: ""
-        description: ""
+        description: Indicates whether a customer record is the most current version. System-generated during the data warehousing process. Set to 'Y' for the current record and 'N' for historical records. Used for querying the most up-to-date customer information. Enables efficient retrieval of current customer data. Not sourced from any source system.
         isSystemCurrentFlag: true
         name: system_current_flag
         nullable: true
@@ -199,7 +207,7 @@ operation:
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: Timestamp indicating when a customer record became active. System-generated during the data warehousing process. Represents the start date of the record's validity. Used for tracking the history of customer data. Enables time-based analysis of customer behavior. Defaults to the current timestamp. Not sourced from any source system.
         isSystemStartDate: true
         name: system_start_date
         nullable: true
@@ -216,7 +224,7 @@ operation:
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: Timestamp indicating the end date of the record's validity. Defaults to '2999-12-31 00:00:00'. Used in slowly changing dimension (SCD) type 2 implementations to track historical changes. Enables time-based queries and reporting. Not sourced from any table; system-generated during the data warehousing process. Marks when a record is no longer considered current. Referenced in audit trails and data lineage reports. Essential for maintaining data accuracy over time.
         isSystemEndDate: true
         name: system_end_date
         nullable: true
@@ -233,7 +241,7 @@ operation:
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: Timestamp representing when the record was initially created in the data warehouse. Automatically generated by the system using the CURRENT_TIMESTAMP function. Not sourced from any table. Useful for auditing and tracking data ingestion. Included in data lineage reports. Helps determine the recency of data. Used in debugging data quality issues. Provides a baseline for measuring data latency. Essential for understanding the data's lifecycle within the warehouse.
         isSystemCreateDate: true
         name: system_create_date
         nullable: true
@@ -250,7 +258,7 @@ operation:
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: Timestamp indicating the last time the record was updated in the data warehouse. Automatically generated by the system using the CURRENT_TIMESTAMP function. Not sourced from any table. Used for auditing changes and tracking data modifications. Included in data governance reports. Helps identify when data was last refreshed. Useful for monitoring data pipeline performance. Provides insights into data volatility. Essential for maintaining data integrity and understanding data update patterns.
         isSystemUpdateDate: true
         name: system_update_date
         nullable: true

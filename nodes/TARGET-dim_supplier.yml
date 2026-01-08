@@ -9,14 +9,22 @@ operation:
     orderbycolumn:
       items:
         - {}
-    postSQL: ""
+    postSQL: |-
+      --==========================================================
+      -- Add Primary Key to dim_supplier so it works with Genie Spaces
+      --==========================================================
+
+      ALTER TABLE coalesce_aws_dbx.clauer_dev.dim_supplier
+      ADD CONSTRAINT pk_dim_supplier
+      PRIMARY KEY (dim_supplier_key)
+      NOT ENFORCED;
     preSQL: ""
     selectDistinct: false
     testsEnabled: false
     truncateBefore: false
   database: ""
   deployEnabled: true
-  description: ""
+  description: Creates the dim_supplier dimension table and merges data from the stg_supplier staging table into it, handling Type 2 Slowly Changing Dimension (SCD) logic.
   isMultisource: false
   locationName: TARGET
   materializationType: table
@@ -33,10 +41,10 @@ operation:
         config: {}
         dataType: BIGINT
         defaultValue: ""
-        description: ""
+        description: Surrogate key uniquely identifies each supplier record in the dimension table. Used as the primary key for the Supplier dimension. Enables efficient joins and lookups in star schema data warehouses. System-generated during the data warehousing process. Not sourced from the original data but created to optimize performance. Supports reporting and analysis of supplier-related metrics. Foreign key in the FactOrder table, linking orders to specific suppliers. Simplifies querying and aggregation of supplier data.
         isSurrogateKey: true
         name: dim_supplier_key
-        nullable: true
+        nullable: false
         sourceColumnReferences:
           - columnReferences: []
             transform: ""
@@ -46,7 +54,7 @@ operation:
           stepCounter: af2d8aef-cae0-422a-8535-46ae43500f82
         config: {}
         dataType: LONG
-        description: ""
+        description: Supplier identifier sourced directly from the Supplier table. Acts as the business key for the Supplier dimension. Used to track and identify suppliers across different systems. Retained without transformations. Key attribute for identifying supplier performance and trends. Enables drill-down analysis in supplier performance dashboards. Essential for linking supplier information to orders and parts. Facilitates accurate reporting on supplier contributions to the business. Used in supplier segmentation and spend analysis.
         isBusinessKey: true
         name: s_suppkey
         nullable: true
@@ -61,7 +69,7 @@ operation:
           stepCounter: af2d8aef-cae0-422a-8535-46ae43500f82
         config: {}
         dataType: STRING
-        description: ""
+        description: Name of the supplier, sourced directly from the Supplier table. Used in reports to identify and differentiate suppliers. Allows for filtering and grouping of data by supplier name. Subject to change tracking to monitor updates. No transformations applied. Displayed in supplier performance dashboards and reports. Supports supplier relationship management and procurement analysis. Enables quick identification of suppliers in various business processes. Used for supplier contact and communication purposes.
         isChangeTracking: true
         name: s_name
         nullable: true
@@ -76,7 +84,7 @@ operation:
           stepCounter: af2d8aef-cae0-422a-8535-46ae43500f82
         config: {}
         dataType: STRING
-        description: ""
+        description: Physical address of the supplier, sourced directly from the Supplier table. Used for logistics, shipping, and supplier location analysis. Allows for geographic segmentation of suppliers. Subject to change tracking to monitor updates. No transformations applied. Displayed in supplier profiles and reports. Supports supply chain management and risk assessment. Enables verification of supplier legitimacy and compliance. Used for supplier site visits and audits.
         isChangeTracking: true
         name: s_address
         nullable: true
@@ -91,7 +99,7 @@ operation:
           stepCounter: af2d8aef-cae0-422a-8535-46ae43500f82
         config: {}
         dataType: LONG
-        description: ""
+        description: Foreign key linking the supplier to its nation of origin in the Nation dimension. Sourced directly from the Supplier table. Used for international trade analysis and reporting. Allows for grouping and filtering of data by supplier nationality. Subject to change tracking to monitor updates. No transformations applied. Displayed in supplier profiles and reports. Supports geopolitical risk assessment and compliance. Enables identification of suppliers from specific countries. Used for supplier diversity and inclusion initiatives.
         isChangeTracking: true
         name: s_nationkey
         nullable: true
@@ -106,7 +114,7 @@ operation:
           stepCounter: af2d8aef-cae0-422a-8535-46ae43500f82
         config: {}
         dataType: STRING
-        description: ""
+        description: Telephone number of the supplier, sourced directly from the Supplier table. Used for communication and contact purposes. Allows for direct outreach to suppliers. Subject to change tracking to monitor updates. No transformations applied. Displayed in supplier profiles and reports. Supports supplier relationship management and issue resolution. Enables quick contact with suppliers for urgent matters. Used for verifying supplier information and legitimacy.
         isChangeTracking: true
         name: s_phone
         nullable: true
@@ -121,7 +129,7 @@ operation:
           stepCounter: af2d8aef-cae0-422a-8535-46ae43500f82
         config: {}
         dataType: DECIMAL
-        description: ""
+        description: Account balance of the supplier, sourced directly from the Supplier table. Used for financial analysis and credit risk assessment. Allows for monitoring of supplier financial health. Subject to change tracking to monitor updates. No transformations applied. Displayed in supplier financial reports. Supports procurement and supply chain finance. Enables identification of financially vulnerable suppliers. Used for negotiating payment terms and managing supplier risk.
         isChangeTracking: true
         name: s_acctbal
         nullable: true
@@ -136,7 +144,7 @@ operation:
           stepCounter: af2d8aef-cae0-422a-8535-46ae43500f82
         config: {}
         dataType: STRING
-        description: ""
+        description: Descriptive comments about the supplier, sourced directly from the Supplier table. Used for capturing additional information and context. Allows for free-text notes on supplier performance and issues. Subject to change tracking to monitor updates. No transformations applied. Displayed in supplier profiles and reports. Supports supplier relationship management and knowledge sharing. Enables capturing of qualitative information about suppliers. Used for internal communication and documentation.
         isChangeTracking: true
         name: s_comment
         nullable: true
@@ -155,7 +163,7 @@ operation:
         config: {}
         dataType: NUMERIC
         defaultValue: ""
-        description: ""
+        description: Tracks the version number of each record in the Supplier dimension. Automatically generated by the system. Used for auditing and data lineage purposes. Increments with each change to a supplier record. Enables tracking of historical changes to supplier attributes. Supports data quality monitoring and issue resolution. Essential for maintaining data integrity and accuracy. Facilitates rollback to previous versions if needed. Used in conjunction with start and end dates to determine record validity.
         isSystemVersion: true
         name: system_version
         nullable: true
@@ -172,7 +180,7 @@ operation:
         config: {}
         dataType: VARCHAR(1)
         defaultValue: ""
-        description: ""
+        description: Indicates whether a supplier record is the most current version. Automatically generated by the system. 'Y' denotes the current record, 'N' denotes a historical record. Used for filtering and reporting on current supplier information. Simplifies querying for the latest supplier data. Enables efficient retrieval of active supplier records. Supports data quality monitoring and issue resolution. Essential for maintaining data integrity and accuracy. Used in conjunction with start and end dates to determine record validity.
         isSystemCurrentFlag: true
         name: system_current_flag
         nullable: true
@@ -189,7 +197,7 @@ operation:
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: Timestamp indicating when a supplier record became active. Automatically generated by the system. Represents the effective start date of the record. Used for tracking the history of supplier changes. Enables time-based analysis of supplier data. Supports data quality monitoring and issue resolution. Essential for maintaining data integrity and accuracy. Used in conjunction with end date to determine record validity. Facilitates historical reporting and trend analysis.
         isSystemStartDate: true
         name: system_start_date
         nullable: true
@@ -206,7 +214,7 @@ operation:
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: Timestamp indicating when a supplier record became inactive. Automatically generated by the system. Represents the effective end date of the record. Defaults to '2999-12-31' for current records. Used for tracking the history of supplier changes. Enables time-based analysis of supplier data. Supports data quality monitoring and issue resolution. Essential for maintaining data integrity and accuracy. Used in conjunction with start date to determine record validity. Facilitates historical reporting and trend analysis.
         isSystemEndDate: true
         name: system_end_date
         nullable: true
@@ -223,7 +231,7 @@ operation:
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: Timestamp representing when a record was created in the data warehouse. Used for auditing and tracking data lineage. Populated using the CURRENT_TIMESTAMP function during record creation. Enables change data capture processes and supports historical analysis. Not sourced from an upstream system. Reflects the timestamp of the initial data load or record insertion. Essential for understanding data freshness and lifecycle within the data warehouse. Used in debugging data quality issues.
         isSystemCreateDate: true
         name: system_create_date
         nullable: true
@@ -240,7 +248,7 @@ operation:
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: Timestamp indicating when a record was last updated in the data warehouse. Essential for auditing changes and tracking data modifications. Updated using the CURRENT_TIMESTAMP function during each record update. Supports identifying the most recent version of a record. Not sourced from an upstream system. Critical for incremental data loading and change data capture processes. Used in reports to show data volatility. Helps maintain data integrity and supports data governance initiatives.
         isSystemUpdateDate: true
         name: system_update_date
         nullable: true

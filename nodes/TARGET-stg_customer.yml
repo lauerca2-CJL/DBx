@@ -24,7 +24,7 @@ operation:
         config: {}
         dataType: LONG
         description: ""
-        name: c_custkey
+        name: C_CUSTKEY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -38,7 +38,7 @@ operation:
         config: {}
         dataType: STRING
         description: ""
-        name: c_name
+        name: C_NAME
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -52,7 +52,7 @@ operation:
         config: {}
         dataType: STRING
         description: ""
-        name: c_address
+        name: C_ADDRESS
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -66,7 +66,7 @@ operation:
         config: {}
         dataType: LONG
         description: ""
-        name: c_nationkey
+        name: C_NATIONKEY
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -80,7 +80,7 @@ operation:
         config: {}
         dataType: STRING
         description: ""
-        name: c_phone
+        name: C_PHONE
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -94,7 +94,7 @@ operation:
         config: {}
         dataType: DECIMAL
         description: ""
-        name: c_acctbal
+        name: C_ACCTBAL
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -108,7 +108,7 @@ operation:
         config: {}
         dataType: STRING
         description: ""
-        name: c_mktsegment
+        name: C_MKTSEGMENT
         nullable: true
         sourceColumnReferences:
           - columnReferences:
@@ -122,7 +122,7 @@ operation:
         config: {}
         dataType: STRING
         description: ""
-        name: c_comment
+        name: C_COMMENT
         nullable: true
         sourceColumnReferences:
           - columnReferences:

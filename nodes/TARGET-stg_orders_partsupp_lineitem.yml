@@ -114,7 +114,7 @@ operation:
           - columnReferences:
               - columnCounter: 27fcf9dd-67c5-41a1-866d-9bee10d767a1
                 stepCounter: 5c2cde57-5c49-48eb-879f-bb76f8f24278
-            transform: CASE WHEN `stg_partsupp_lineitem`.`l_linenumber` = 1 THEN "STG_ORDERS"."O_TOTALPRICE" ELSE 0 END
+            transform: CASE WHEN `stg_partsupp_lineitem`.`l_linenumber` = 1 THEN `stg_orders`.`o_totalprice` ELSE 0 END
       - appliedColumnTests: {}
         columnReference:
           columnCounter: 05f234b9-c7c7-4a46-a189-64fee0bbd3dc
@@ -142,7 +142,7 @@ operation:
           - columnReferences:
               - columnCounter: 742f0ef3-0c1a-4ade-a4ed-38da4e0471f2
                 stepCounter: 665806a9-8a75-4dfc-8740-df1188de7520
-            transform: SPLIT_PART("STG_ORDERS"."O_ORDERPRIORITY", '-', 1 )
+            transform: SPLIT_PART(`stg_orders`.`o_orderpriority`, '-', 1 )
       - appliedColumnTests: {}
         columnReference:
           columnCounter: b82d8925-da1f-417e-84d7-cf2b0eb8aa44
@@ -156,7 +156,7 @@ operation:
           - columnReferences:
               - columnCounter: 742f0ef3-0c1a-4ade-a4ed-38da4e0471f2
                 stepCounter: 665806a9-8a75-4dfc-8740-df1188de7520
-            transform: SPLIT_PART("STG_ORDERS"."O_ORDERPRIORITY", '-', 2 )
+            transform: SPLIT_PART(`stg_orders`.`o_orderpriority`, '-', 2 )
       - appliedColumnTests: {}
         columnReference:
           columnCounter: f6eff59f-3753-4400-9e9c-0f7e6e87a918

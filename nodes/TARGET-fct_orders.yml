@@ -1,6 +1,6 @@
 fileVersion: 1
 id: 99c35b76-145f-498b-ba42-5a22d90883aa
-name: fct_orders_partsupp_lineitem1
+name: fct_orders
 operation:
   config:
     groupByAll: false
@@ -9,14 +9,39 @@ operation:
     orderbycolumn:
       items:
         - {}
-    postSQL: ""
+    postSQL: |
+      --==========================================================
+      -- Add Foreign Keys to fct_orders so it works with Genie Spaces
+      --==========================================================
+
+      alter table coalesce_aws_dbx.clauer_dev.fct_orders
+      add constraint fk_orders_customer
+      foreign key (dim_customer_key)
+      references coalesce_aws_dbx.clauer_dev.dim_customer(dim_customer_key)
+      not enforced
+
+      {{ stage('add fk_orders_part') }}
+
+      alter table coalesce_aws_dbx.clauer_dev.fct_orders
+      add constraint fk_orders_part
+      foreign key (dim_part_key)
+      references coalesce_aws_dbx.clauer_dev.dim_part(dim_part_key)
+      not enforced
+
+      {{ stage('add fk_orders_supplier') }}
+
+      alter table coalesce_aws_dbx.clauer_dev.fct_orders
+      add constraint fk_orders_supplier
+      foreign key (dim_supplier_key)
+      references coalesce_aws_dbx.clauer_dev.dim_supplier(dim_supplier_key)
+      not enforced
     preSQL: ""
     selectDistinct: false
     testsEnabled: false
     truncateBefore: false
   database: ""
   deployEnabled: true
-  description: ""
+  description: Fact Table containing orders data that links to dim_customer, dim_part and dim_supplier
   isMultisource: false
   locationName: TARGET
   materializationType: table
@@ -29,7 +54,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: LONG
-        description: ""
+        description: Customer identifier from the Orders table. Serves as a foreign key linking to the Customer dimension table. Enables the retrieval of customer-specific details related to each order. Used in sales performance reports, customer segmentation analysis, and customer lifetime value calculations. Sourced directly from the Orders table without transformations. Essential for understanding customer purchasing behavior and trends.
         name: o_custkey
         nullable: true
         sourceColumnReferences:
@@ -43,7 +68,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: LONG
-        description: ""
+        description: Part identifier from the Lineitem table. Functions as a foreign key to the Part dimension table. Allows for the retrieval of part-specific information for each line item. Used in inventory management reports, product performance analysis, and supply chain optimization. Sourced directly from the Lineitem table without transformations. Crucial for analyzing product-level sales and demand patterns.
         name: l_partkey
         nullable: true
         sourceColumnReferences:
@@ -57,7 +82,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: LONG
-        description: ""
+        description: Supplier identifier from the Lineitem table. Acts as a foreign key to the Supplier dimension table. Facilitates the retrieval of supplier-specific details for each line item. Used in supplier performance evaluations, procurement cost analysis, and supply chain risk management. Sourced directly from the Lineitem table without transformations. Vital for assessing supplier contributions and optimizing sourcing strategies.
         name: l_suppkey
         nullable: true
         sourceColumnReferences:
@@ -71,7 +96,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: LONG
-        description: ""
+        description: Order identifier from the Orders table. Primary key for the Orders table. Referenced by the Lineitem table. Used in order tracking systems, sales analysis dashboards, and customer order history reports. Sourced directly from the Orders table without transformations. Forms the basis for order-level analysis and reporting. Ensures unique identification of each order within the system.
         name: o_orderkey
         nullable: true
         sourceColumnReferences:
@@ -85,12 +110,12 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: BIGINT
-        description: ""
+        description: Surrogate key for the Customer dimension table. Replaces the natural key for improved performance and simplified relationships. Used as a foreign key in the fact table to link orders to customer information. Enables efficient querying and reporting on customer attributes. System-generated during the ETL process. Facilitates data integration and analysis across different business areas.
         name: dim_customer_key
-        nullable: true
+        nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: 2f7c9064-f436-4d82-a265-e81be0fc2ec1
+              - columnCounter: 8bc4fa96-813a-44ac-baa7-60b4126f1a8e
                 stepCounter: 810b661f-346e-42ba-b0f8-a54245f78868
             transform: ""
       - appliedColumnTests: {}
@@ -99,12 +124,12 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: BIGINT
-        description: ""
+        description: Surrogate key for the Part dimension table. Replaces the natural key for enhanced performance and simplified relationships. Used as a foreign key in the fact table to link line items to part information. Enables efficient querying and reporting on part attributes. System-generated during the ETL process. Supports detailed analysis of product sales and performance.
         name: dim_part_key
-        nullable: true
+        nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: a095dc29-2e1b-4d70-b620-004b93694258
+              - columnCounter: 292d4471-0c15-4824-8124-780712690d95
                 stepCounter: 810b661f-346e-42ba-b0f8-a54245f78868
             transform: ""
       - appliedColumnTests: {}
@@ -113,12 +138,12 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: BIGINT
-        description: ""
+        description: Surrogate key for the Supplier dimension table. Replaces the natural key for improved performance and simplified relationships. Used as a foreign key in the fact table to link line items to supplier information. Enables efficient querying and reporting on supplier attributes. System-generated during the ETL process. Supports comprehensive analysis of supplier performance and sourcing effectiveness.
         name: dim_supplier_key
-        nullable: true
+        nullable: false
         sourceColumnReferences:
           - columnReferences:
-              - columnCounter: d960690a-eaa9-4722-9c49-13a9dbb1a8c5
+              - columnCounter: a287fee7-b635-494b-90cd-162ef549b748
                 stepCounter: 810b661f-346e-42ba-b0f8-a54245f78868
             transform: ""
       - appliedColumnTests: {}
@@ -127,7 +152,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: STRING
-        description: ""
+        description: Order status from the Orders table. Indicates the current state of an order (e.g., pending, shipped, complete). Used in order management dashboards, customer service reports, and sales pipeline analysis. Sourced directly from the Orders table without transformations. Provides insights into order fulfillment processes and potential bottlenecks. Enables proactive management of customer orders and timely resolution of issues.
         name: o_orderstatus
         nullable: true
         sourceColumnReferences:
@@ -141,7 +166,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: DECIMAL
-        description: ""
+        description: Total price of the order from the Orders table. Represents the sum of all line item prices for a given order. Used in revenue analysis, sales forecasting, and profitability calculations. Sourced directly from the Orders table without transformations. Provides a key measure of order value and contribution to overall sales. Enables detailed analysis of pricing strategies and their impact on revenue.
         name: o_totalprice
         nullable: true
         sourceColumnReferences:
@@ -155,7 +180,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: DECIMAL
-        description: ""
+        description: Total price of the order from the Orders table. Represents the sum of all line item prices for a given order. Used in revenue analysis, sales forecasting, and profitability calculations. Sourced directly from the Orders table without transformations. Provides a key measure of order value and contribution to overall sales. Enables detailed analysis of pricing strategies and their impact on revenue.
         name: o_total_order_price
         nullable: true
         sourceColumnReferences:
@@ -169,7 +194,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: DATE
-        description: ""
+        description: Order date from the Orders table. Indicates the date when the order was placed. Used in sales trend analysis, seasonality studies, and customer behavior modeling. Sourced directly from the Orders table without transformations. Provides a critical time dimension for analyzing sales patterns and identifying growth opportunities. Enables accurate tracking of order volumes and revenue over time.
         name: o_orderdate
         nullable: true
         sourceColumnReferences:
@@ -183,7 +208,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: STRING
-        description: ""
+        description: Order priority from the Orders table. Represents the urgency level assigned to an order (e.g., high, medium, low). Used in order fulfillment planning, resource allocation, and customer service prioritization. Sourced directly from the Orders table without transformations. Provides insights into order handling processes and customer expectations. Enables efficient management of order queues and timely delivery of critical orders.
         name: o_orderpriority_num
         nullable: true
         sourceColumnReferences:
@@ -197,7 +222,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: STRING
-        description: ""
+        description: Order priority from the Orders table. Describes the urgency level of the order. Used in reports to analyze order fulfillment efficiency based on priority. Directly sourced from the Orders table without transformations. Useful in determining resource allocation strategies and identifying bottlenecks in order processing. Supports customer service inquiries related to order handling.
         name: o_orderpriority_desc
         nullable: true
         sourceColumnReferences:
@@ -211,7 +236,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: STRING
-        description: ""
+        description: Clerk who processed the order, taken directly from the Orders table. Used for performance tracking and workload distribution analysis. Helps identify top-performing clerks and optimize staffing levels. No transformations applied. Supports auditing and accountability processes within the order management system. Useful for training and development programs.
         name: o_clerk
         nullable: true
         sourceColumnReferences:
@@ -225,7 +250,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: INT
-        description: ""
+        description: Shipping priority assigned to the order. Indicates the preferred shipping method or speed. Sourced directly from the Orders table. Used in logistics planning and shipping cost analysis. Helps optimize delivery schedules and reduce transportation expenses. Supports customer communication regarding shipping options and delivery timelines. No transformations applied.
         name: o_shippriority
         nullable: true
         sourceColumnReferences:
@@ -239,7 +264,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: STRING
-        description: ""
+        description: Additional comments or notes related to the order. Provides context and special instructions. Sourced directly from the Orders table. Used for internal communication and order clarification. Supports customer service inquiries and issue resolution. No transformations applied. Useful for identifying recurring issues or special handling requirements. Aids in process improvement initiatives.
         name: o_comment
         nullable: true
         sourceColumnReferences:
@@ -253,7 +278,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: LONG
-        description: ""
+        description: Order identifier from the Lineitem table. Foreign key linking to the Orders table. Used to join line item details with order information. Enables analysis of order composition and fulfillment status. Sourced directly from the Lineitem table without transformations. Essential for generating order-level reports and dashboards. Supports drill-down analysis from order summaries to individual line items.
         name: l_orderkey
         nullable: true
         sourceColumnReferences:
@@ -267,7 +292,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: INT
-        description: ""
+        description: Line number within the order from the Lineitem table. Indicates the sequence of items in the order. Used for detailed order analysis and inventory management. Sourced directly from the Lineitem table without transformations. Helps track the fulfillment status of individual items within an order. Supports troubleshooting and issue resolution related to specific line items.
         name: l_linenumber
         nullable: true
         sourceColumnReferences:
@@ -281,7 +306,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: DECIMAL
-        description: ""
+        description: Quantity of the item ordered from the Lineitem table. Used in sales analysis and inventory management. Sourced directly from the Lineitem table without transformations. Helps track product demand and optimize stock levels. Supports pricing and revenue calculations. Useful for identifying popular products and forecasting future sales. Essential for supply chain planning and logistics.
         name: l_quantity
         nullable: true
         sourceColumnReferences:
@@ -295,7 +320,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: DECIMAL
-        description: ""
+        description: Extended price of the line item from the Lineitem table. Calculated as the product of quantity and unit price. Used in revenue analysis and profitability calculations. Sourced directly from the Lineitem table without transformations. Helps track sales performance and identify high-value products. Supports financial reporting and budgeting processes. Essential for pricing strategy and margin analysis.
         name: l_extendedprice
         nullable: true
         sourceColumnReferences:
@@ -309,7 +334,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: DECIMAL
-        description: ""
+        description: Discount applied to the line item from the Lineitem table. Used in pricing analysis and promotion effectiveness measurement. Sourced directly from the Lineitem table without transformations. Helps track the impact of discounts on sales volume and revenue. Supports customer segmentation and targeted marketing campaigns. Useful for optimizing pricing strategies and maximizing profitability.
         name: l_discount
         nullable: true
         sourceColumnReferences:
@@ -323,7 +348,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: DECIMAL
-        description: ""
+        description: Tax amount applied to the line item from the Lineitem table. Used in financial reporting and compliance. Sourced directly from the Lineitem table without transformations. Helps track tax liabilities and ensure accurate tax collection. Supports government reporting and auditing processes. Essential for maintaining financial transparency and regulatory compliance. Useful for calculating total order value.
         name: l_tax
         nullable: true
         sourceColumnReferences:
@@ -337,7 +362,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: STRING
-        description: ""
+        description: Flag indicating whether the line item was returned from the Lineitem table. Used in returns analysis and customer satisfaction measurement. Sourced directly from the Lineitem table without transformations. Helps track return rates and identify potential product quality issues. Supports customer service and warranty processes. Useful for improving product design and reducing return-related costs.
         name: l_returnflag
         nullable: true
         sourceColumnReferences:
@@ -351,7 +376,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: STRING
-        description: ""
+        description: Status of the line item from the Lineitem table. Indicates whether the item is in stock, backordered, or shipped. Used in inventory management and order fulfillment tracking. Sourced directly from the Lineitem table without transformations. Helps track the progress of orders and identify potential delays. Supports customer communication regarding order status and delivery timelines.
         name: l_linestatus
         nullable: true
         sourceColumnReferences:
@@ -365,7 +390,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: DATE
-        description: ""
+        description: Date when the line item was shipped. Originates from the Lineitem table. Used in reports for tracking order fulfillment timelines and identifying shipping trends. Helps analyze on-time delivery performance and potential bottlenecks in the shipping process. No transformations applied.
         name: l_shipdate
         nullable: true
         sourceColumnReferences:
@@ -379,7 +404,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: DATE
-        description: ""
+        description: Date when the line item shipment was committed. Sourced directly from the Lineitem table. Used in supply chain analysis to compare planned versus actual shipment dates. Helps in assessing the accuracy of commitment dates and identifying potential delays. No transformations applied.
         name: l_commitdate
         nullable: true
         sourceColumnReferences:
@@ -393,7 +418,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: DATE
-        description: ""
+        description: Date when the line item was received. Extracted directly from the Lineitem table. Used in logistics and inventory management to track the time taken for goods to reach their destination. Aids in calculating lead times and optimizing inventory levels. No transformations applied.
         name: l_receiptdate
         nullable: true
         sourceColumnReferences:
@@ -407,7 +432,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: STRING
-        description: ""
+        description: Shipping instructions for the line item. Pulled directly from the Lineitem table. Provides details on how the order should be shipped. Used by the shipping department to ensure proper handling and delivery. No transformations applied; represents the original instructions.
         name: l_shipinstruct
         nullable: true
         sourceColumnReferences:
@@ -421,7 +446,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: STRING
-        description: ""
+        description: Shipping mode for the line item. Taken directly from the Lineitem table. Indicates the method of shipment used, such as air, sea, or road. Used in logistics analysis to determine the efficiency and cost-effectiveness of different shipping methods. No transformations applied.
         name: l_shipmode
         nullable: true
         sourceColumnReferences:
@@ -435,7 +460,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: STRING
-        description: ""
+        description: Comment associated with the line item. Sourced directly from the Lineitem table. Provides additional information or notes related to the line item. Used for internal communication and record-keeping purposes. Can contain special handling instructions or explanations for delays. No transformations applied.
         name: l_comment
         nullable: true
         sourceColumnReferences:
@@ -449,7 +474,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: INT
-        description: ""
+        description: Quantity of parts available. Originates from the Partsupp table. Used in inventory management to track stock levels and ensure sufficient supply. Helps in avoiding stockouts and meeting customer demand. No transformations applied; reflects the actual available quantity.
         name: ps_availqty
         nullable: true
         sourceColumnReferences:
@@ -463,7 +488,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: DECIMAL
-        description: ""
+        description: Cost of the supply. Sourced directly from the Partsupp table. Used in cost analysis to determine the expenses associated with procuring parts. Helps in identifying cost-saving opportunities and optimizing pricing strategies. No transformations applied; represents the original supply cost.
         name: ps_supplycost
         nullable: true
         sourceColumnReferences:
@@ -477,7 +502,7 @@ operation:
           stepCounter: 99c35b76-145f-498b-ba42-5a22d90883aa
         config: {}
         dataType: INT
-        description: ""
+        description: Calculated field representing the number of days between the commit and ship dates. Derived by subtracting l_commitdate from l_shipdate. Used in performance analysis to measure shipping efficiency. Aids in identifying delays and improving delivery times. Provides insights into supply chain responsiveness.
         name: days_to_ship
         nullable: true
         sourceColumnReferences:
@@ -495,7 +520,7 @@ operation:
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: Timestamp representing when the record was created in the system. System-generated using the CURRENT_TIMESTAMP function. Used for auditing and tracking data lineage. Helps in understanding when data was initially added to the table. Not sourced from any external table; reflects system activity.
         isSystemCreateDate: true
         name: system_create_date
         nullable: true
@@ -512,7 +537,7 @@ operation:
         config: {}
         dataType: TIMESTAMP
         defaultValue: ""
-        description: ""
+        description: Timestamp representing the last time the record was updated in the system. System-generated using the CURRENT_TIMESTAMP function. Used for auditing and tracking data changes. Helps in understanding when data was last modified. Not sourced from any external table; reflects system activity.
         isSystemUpdateDate: true
         name: system_update_date
         nullable: true
@@ -531,9 +556,9 @@ operation:
             nodeName: stg_orders_partsupp_lineitem1
         join:
           joinCondition: FROM {{ ref('TARGET', 'stg_orders_partsupp_lineitem1') }} `stg_orders_partsupp_lineitem1`
-        name: fct_orders_partsupp_lineitem1
+        name: fct_orders
         noLinkRefs: []
-  name: fct_orders_partsupp_lineitem1
+  name: fct_orders
   overrideSQL: false
   schema: ""
   sqlType: Fact
